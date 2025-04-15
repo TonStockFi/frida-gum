@@ -12,49 +12,30 @@ jobs:
   
 
   native:
-    strategy:
-      matrix:
-        include:
-          - { id: windows-x86,    runner: '"windows-latest"'                    }
-      fail-fast: false
-    runs-on: ${{ fromJSON(matrix.runner) }}
+    # strategy:
+    #   matrix:
+    #     include:
+    #       - { id: windows-x86,    runner: '"windows-latest"'                    }
+    #   fail-fast: false
+    runs-on: [self-hosted, windows-x86]  # Matches your runner's label
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
         with:
           submodules: recursive
-      - name: Install gcc-multilib
-        if: matrix.id == 'linux-x86'
-        run: |
-          sudo apt-get update
-          sudo apt-get install gcc-multilib lib32stdc++-11-dev
+      
       - name: Build
-        if: ${{ startsWith(matrix.id, 'windows-') }}
         run: |
           .\configure --host=x86 ${{ env.GUM_OPTIONS }}
           .\make
-      - name: Build
-        if: ${{ !startsWith(matrix.id, 'windows-') && matrix.id != 'linux-x86' }}
-        run: |
-          ./configure ${{ env.GUM_OPTIONS }}
-          make
-      - name: Build
-        if: matrix.id == 'linux-x86'
-        run: |
-          CC="gcc -m32" CXX="g++ -m32" STRIP="strip" \
-              ./configure --build=linux-x86 --host=linux-x86 ${{ env.GUM_OPTIONS }}
-          make
+    
       - name: Upload Gum devkit
-        if: ${{ !startsWith(matrix.id, 'linux-') }}
         uses: actions/upload-artifact@v4
         with:
-          name: gum-devkit-${{ matrix.id }}
+          name: gum-devkit
           path: build/gum/devkit/
       - name: Upload GumJS devkit
-        if: ${{ !startsWith(matrix.id, 'linux-') }}
         uses: actions/upload-artifact@v4
         with:
-          name: gumjs-devkit-${{ matrix.id }}
+          name: gumjs-devkit
           path: build/bindings/gumjs/devkit/
-      - name: Test
-        run: make test
