@@ -12,12 +12,12 @@ jobs:
   
 
   native:
-    # strategy:
-    #   matrix:
-    #     include:
-    #       - { id: windows-x86,    runner: '"windows-latest"'                    }
-    #   fail-fast: false
-    runs-on: [self-hosted, windows-x86]  # Matches your runner's label
+    strategy:
+      matrix:
+        include:
+          - { id: windows-x86,    runner: '"windows-latest"'                    }
+      fail-fast: false
+    # runs-on: [self-hosted, windows-x86]  # Matches your runner's label
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
