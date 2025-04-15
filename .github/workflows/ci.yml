@@ -16,9 +16,7 @@ jobs:
         include:
           - { id: windows-x86,    runner: '"windows-latest"'                    }
       fail-fast: false
-    runs-on: ${{ fromJSON(matrix.runner) }}
-    steps:
-      
+    runs-on: ${{ fromJSON(matrix.runner) }}      
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
