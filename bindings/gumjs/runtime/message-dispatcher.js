@@ -24,13 +24,23 @@ function MessageDispatcher() {
   };
 
   function handleMessage(rawMessage, data) {
-    reply(1, 'ok', rawMessage);
-    const message = JSON.parse(rawMessage);
-    if (message instanceof Array && message[0] === 'frida:rpc') {
-      handleRpcMessage(message[1], message[2], message.slice(3), data);
-    } else {
-      messages.push([message, data]);
-      dispatchMessages();
+    let message
+    try{
+      message = JSON.parse(rawMessage);
+    }catch(e){
+      if(rawMessage.indexOf("ack\":\"") > -1){
+        let [a,ack1] = rawMessage.split("ack\":\"");
+        let [ack,b] = ack1.split("\"");
+        message = {ack}
+      }
+    }
+    if(message){
+      if (message instanceof Array && message[0] === 'frida:rpc') {
+        handleRpcMessage(message[1], message[2], message.slice(3), data);
+      } else {
+        messages.push([message, data]);
+        dispatchMessages();
+      }
     }
   }
 
