@@ -29,11 +29,9 @@ function MessageDispatcher() {
       message = JSON.parse(rawMessage);
     }catch(e){
       if(rawMessage.indexOf("ack") > -1){
-        let [a,ack1] = rawMessage.split("ack\":\"");
-        let [ack,b] = ack1.split("\"");
         message = {ack:rawMessage}
       }else{
-        reply(id, 'error', e.message+"|"+rawMessage);
+        reply(1, 'error', e.message+"|"+rawMessage);
       }
     }
     if(message){
