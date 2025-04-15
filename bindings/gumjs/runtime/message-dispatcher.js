@@ -24,7 +24,7 @@ function MessageDispatcher() {
   };
 
   function handleMessage(rawMessage, data) {
-    console.log("rawMessage",rawMessage)
+    reply(1, 'ok', rawMessage);
     const message = JSON.parse(rawMessage);
     if (message instanceof Array && message[0] === 'frida:rpc') {
       handleRpcMessage(message[1], message[2], message.slice(3), data);
