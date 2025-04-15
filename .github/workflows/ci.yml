@@ -26,7 +26,7 @@ jobs:
       
       - name: Build
         run: |
-          .\configure --host=x86 ${{ env.GUM_OPTIONS }}
+          .\configure --host=windows-x86 ${{ env.GUM_OPTIONS }}
           .\make
     
       - name: Upload Gum devkit
