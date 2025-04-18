@@ -26,8 +26,7 @@ jobs:
       - name: Build
         run: |
           .\configure --host=windows-x86 ${{ env.GUM_OPTIONS }}
-          ls deps
-          tree deps
+          tree deps\sdk-windows-x86-mt
     
       # - name: Upload Gum devkit
       #   uses: actions/upload-artifact@v4
