@@ -26,15 +26,16 @@ jobs:
       - name: Build
         run: |
           .\configure --host=windows-x86 ${{ env.GUM_OPTIONS }}
-          .\make
+          ls deps
+          tree deps
     
-      - name: Upload Gum devkit
-        uses: actions/upload-artifact@v4
-        with:
-          name: gum-devkit
-          path: build/gum/devkit/
-      - name: Upload GumJS devkit
-        uses: actions/upload-artifact@v4
-        with:
-          name: gumjs-devkit
-          path: build/bindings/gumjs/devkit/
+      # - name: Upload Gum devkit
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: gum-devkit
+      #     path: build/gum/devkit/
+      # - name: Upload GumJS devkit
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: gumjs-devkit
+      #     path: build/bindings/gumjs/devkit/
